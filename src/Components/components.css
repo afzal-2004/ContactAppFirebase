@@ -1,0 +1,7 @@
+.backgroundClass {
+    background: linear-gradient(rtl, #eadddd rgb(226, 222, 222));
+    backdrop-filter: blur(10px);
+    row-gap: 20px;
+    column-gap: 15px;
+
+}
