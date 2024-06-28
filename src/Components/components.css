@@ -3,5 +3,7 @@
     backdrop-filter: blur(10px);
     row-gap: 20px;
     column-gap: 15px;
+    height: calc(70vh);
+    width: 50vw;
 
 }

@@ -4,9 +4,11 @@ import { useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { Db } from "../config/firebase";
 import "./components.css";
-export const Form = ({ setopen, isAddbtn, contacts }) => {
-  const [name, setname] = useState(isAddbtn ? "" : contacts.name);
-  const [email, setemail] = useState(isAddbtn ? "" : contacts.email);
+export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
+  const [name, setname] = useState(isAddbtn ? "" : contacts[contactindex].name);
+  const [email, setemail] = useState(
+    isAddbtn ? "" : contacts[contactindex].email
+  );
 
   const onNamesubmit = (e) => {
     setname(e.target.value);
@@ -15,6 +17,7 @@ export const Form = ({ setopen, isAddbtn, contacts }) => {
   const OnemailSumbit = (e) => {
     setemail(e.target.value);
   };
+
   const addcontact = async (conatct) => {
     try {
       const ContactRef = collection(Db, "contact");
@@ -26,7 +29,7 @@ export const Form = ({ setopen, isAddbtn, contacts }) => {
 
   return (
     <>
-      <div className="    h-[50vh]  w-[100vw] absolute  flex  items-center  justify-center  backgroundClass ">
+      <div className="   h-[70vh]    w-[90vw]   flex  items-center  justify-center    m-0 z-50 absolute top-[150px] rounded-xl">
         <form
           action=""
           onSubmit={() => {
@@ -45,6 +48,7 @@ export const Form = ({ setopen, isAddbtn, contacts }) => {
             </label>
             <input
               type="text"
+              value={name}
               className=" border-2 border-black p-3  w-full "
               onChange={onNamesubmit}
             />
@@ -54,6 +58,7 @@ export const Form = ({ setopen, isAddbtn, contacts }) => {
             <label htmlFor="Email">Email</label>
             <input
               type="text"
+              value={email}
               className=" border-2 border-black p-3  w-full"
               onChange={OnemailSumbit}
             />
@@ -70,7 +75,7 @@ export const Form = ({ setopen, isAddbtn, contacts }) => {
               });
             }}
           >
-            <div className=" bg-yellow-400   flex   float-right  p-3 rounded-lg ">
+            <div className=" bg-yellow-400   flex   float-right  p-3 rounded-lg  cursor-pointer">
               {isAddbtn ? "Add" : "Update"} Contact
             </div>
           </div>

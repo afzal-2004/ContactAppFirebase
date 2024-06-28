@@ -10,8 +10,12 @@ import { useEffect, useState } from "react";
 import { Db } from "../config/firebase";
 import { Form } from "./Form";
 const Card = ({ contacts, setcontacts }) => {
-  const [Editing, setEditing] = useState(false);
+  // const [Editing, setEditing] = useState(false);
+  const [Editingindex, setEditingindex] = useState(null);
 
+  const handleEdit = (index) => {
+    setEditingindex(index);
+  };
   const deletecontact = async (id) => {
     try {
       const contactRef = doc(Db, "contact", id);
@@ -43,7 +47,7 @@ const Card = ({ contacts, setcontacts }) => {
 
   return (
     <>
-      {contacts.map((contact) => (
+      {contacts.map((contact, i) => (
         <section
           key={contact.id}
           className=" bg-yellow-400 flex  items-center justify-between  gap-x-3 p-2 rounded-xl mt-4 z-0"
@@ -56,7 +60,7 @@ const Card = ({ contacts, setcontacts }) => {
           <div className=" flex">
             <LuFileEdit
               onClick={() => {
-                setEditing(true);
+                handleEdit(i);
               }}
               className="  text-[40px]  "
             />
@@ -68,13 +72,23 @@ const Card = ({ contacts, setcontacts }) => {
               }}
             />
           </div>
+          {Editingindex === i && (
+            <>
+              <Form
+                setopen={setEditingindex}
+                contacts={contacts}
+                isAddbtn={false}
+                contactindex={i}
+              />
+            </>
+          )}
         </section>
       ))}
-      {Editing && (
+      {/* {Editing && (
         <>
           <Form setopen={setEditing} contacts={contacts} />
         </>
-      )}
+      )} */}
     </>
   );
 };
