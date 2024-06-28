@@ -2,15 +2,15 @@
 import { FaUserCircle } from "react-icons/fa";
 import { LuFileEdit } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
-import { collection, getDocs } from "firebase/firestore";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { deleteDoc, doc } from "firebase/firestore";
-
-import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { useState } from "react";
 import { Db } from "../config/firebase";
 import { Form } from "./Form";
-const Card = ({ contacts, setcontacts }) => {
-  // const [Editing, setEditing] = useState(false);
+const Card = ({ contacts }) => {
   const [Editingindex, setEditingindex] = useState(null);
 
   const handleEdit = (index) => {
@@ -20,30 +20,33 @@ const Card = ({ contacts, setcontacts }) => {
     try {
       const contactRef = doc(Db, "contact", id);
       await deleteDoc(contactRef);
+      toast.success("Contact Delete Succesfully");
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    async function fetchdata() {
-      try {
-        const Contactref = collection(Db, "contact");
-        const contactSnapShot = await getDocs(Contactref);
-        const contactList = contactSnapShot.docs.map((doc) => {
-          return {
-            id: doc.id,
-            ...doc.data(),
-          };
-        });
-        setcontacts(contactList);
-        // console.log(contactSnapShot);
-        // console.log(contactList);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    fetchdata();
-  }, [contacts, setcontacts]);
+
+  // useEffect(() => {
+  //   async function fetchdata() {
+  //     try {
+  //       const Contactref = collection(Db, "contact");
+  //       // const contactSnapShot = await getDocs(Contactref);
+  //       onSnapshot(Contactref, (snapshot) => {
+  //         const contactList = snapshot.docs.map((doc) => {
+  //           return {
+  //             id: doc.id,
+  //             ...doc.data(),
+  //           };
+  //         });
+  //         setcontacts(contactList);
+  //         return contactList;
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+  //   fetchdata();
+  // }, [contacts, setcontacts]);
 
   return (
     <>
@@ -84,11 +87,7 @@ const Card = ({ contacts, setcontacts }) => {
           )}
         </section>
       ))}
-      {/* {Editing && (
-        <>
-          <Form setopen={setEditing} contacts={contacts} />
-        </>
-      )} */}
+      <ToastContainer autoClose={1000} pauseOnFocusLoss={false} />
     </>
   );
 };

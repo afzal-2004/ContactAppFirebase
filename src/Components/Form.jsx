@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { IoClose } from "react-icons/io5";
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { Db } from "../config/firebase";
 import "./components.css";
+import { toast } from "react-toastify";
 export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
   const [name, setname] = useState(isAddbtn ? "" : contacts[contactindex].name);
   const [email, setemail] = useState(
@@ -22,6 +23,16 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
     try {
       const ContactRef = collection(Db, "contact");
       await addDoc(ContactRef, conatct);
+      toast.success(" Contact Added SuccesFully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const Updatecontact = async (conatct, id) => {
+    try {
+      const ContactRef = doc(Db, "contact", id);
+      await updateDoc(ContactRef, conatct);
+      toast.success(" Contact Updated SuccesFully");
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +50,10 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
           className="flex flex-col p-3  bg-white z-50 gap-y-3 rounded-lg"
         >
           <div className=" flex    justify-end">
-            <IoClose className="  text-[40px]" onClick={() => setopen(false)} />
+            <IoClose
+              className="  text-[40px] cursor-pointer"
+              onClick={() => setopen(null)}
+            />
           </div>
 
           <div className="flex flex-col">
@@ -49,7 +63,7 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
             <input
               type="text"
               value={name}
-              className=" border-2 border-black p-3  w-full "
+              className=" border-2 border-black p-3  w-full  "
               onChange={onNamesubmit}
             />
           </div>
@@ -68,11 +82,21 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
             onClick={() => {
               console.log(name);
               console.log(email);
-              setopen(false);
-              addcontact({
-                name: name,
-                email: email,
-              });
+              setopen(null);
+
+              isAddbtn
+                ? addcontact({
+                    name: name,
+                    email: email,
+                  })
+                : Updatecontact(
+                    {
+                      name: name,
+                      email: email,
+                    },
+
+                    contacts[contactindex].id
+                  );
             }}
           >
             <div className=" bg-yellow-400   flex   float-right  p-3 rounded-lg  cursor-pointer">

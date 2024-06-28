@@ -1,15 +1,41 @@
 /* eslint-disable react/prop-types */
 import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./components.css";
+import { collection, onSnapshot } from "firebase/firestore";
+import { Db } from "../config/firebase";
+
 import { Form } from "./Form";
 
-const Home = ({ contacts }) => {
+const Home = ({ contacts, setcontacts }) => {
   const [open, setopen] = useState(false);
   const isOpenModel = () => {
     setopen(true);
   };
+  useEffect(() => {
+    async function fetchdata() {
+      try {
+        const Contactref = collection(Db, "contact");
+        // const contactSnapShot = await getDocs(Contactref);
+        onSnapshot(Contactref, (snapshot) => {
+          const contactList = snapshot.docs.map((doc) => {
+            return {
+              id: doc.id,
+              ...doc.data(),
+            };
+          });
+          setcontacts(contactList);
+          return contactList;
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchdata();
+  }, [contacts, setcontacts]);
+
+  // eslint-disable-next-line no-unused-vars
 
   return (
     <>
@@ -18,13 +44,14 @@ const Home = ({ contacts }) => {
           <img src="/public/logos_firebase.svg" alt="" />
           <p> Firebase Contact App</p>
         </section>
-        <section className=" flex mt-4 bac w-full gap-3">
-          <div className=" flex border-2 border-white rounded-xl w-full justify-start items-center">
-            <CiSearch className="  text-[35px]  text-white" />
+        <section className=" flex mt-4  w-full gap-3">
+          <div className=" flex border-2 border-white  w-full justify-start items-center rounded-xl">
+            <CiSearch className="  text-[35px]  text-white absolute" />
 
             <input
+              // onChange={() => }
               type="Search Contact"
-              className="w-full rounded-md bg-transparent border-none p-3"
+              className="w-full bg-transparent border-none p-3"
             />
           </div>
 
