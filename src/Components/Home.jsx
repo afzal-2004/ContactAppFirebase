@@ -17,7 +17,7 @@ const Home = ({ contacts, setcontacts }) => {
     async function fetchdata() {
       try {
         const Contactref = collection(Db, "contact");
-        // const contactSnapShot = await getDocs(Contactref);
+
         onSnapshot(Contactref, (snapshot) => {
           const contactList = snapshot.docs.map((doc) => {
             return {
