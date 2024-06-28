@@ -26,28 +26,6 @@ const Card = ({ contacts }) => {
     }
   };
 
-  // useEffect(() => {
-  //   async function fetchdata() {
-  //     try {
-  //       const Contactref = collection(Db, "contact");
-  //       // const contactSnapShot = await getDocs(Contactref);
-  //       onSnapshot(Contactref, (snapshot) => {
-  //         const contactList = snapshot.docs.map((doc) => {
-  //           return {
-  //             id: doc.id,
-  //             ...doc.data(),
-  //           };
-  //         });
-  //         setcontacts(contactList);
-  //         return contactList;
-  //       });
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   fetchdata();
-  // }, [contacts, setcontacts]);
-
   return (
     <>
       {contacts.map((contact, i) => (
@@ -87,7 +65,7 @@ const Card = ({ contacts }) => {
           )}
         </section>
       ))}
-      <ToastContainer autoClose={1000} pauseOnFocusLoss={false} />
+      <ToastContainer autoClose={3000} pauseOnFocusLoss={false} />
     </>
   );
 };

@@ -47,7 +47,7 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
             console.log(name);
             console.log(email);
           }}
-          className="flex flex-col p-3  bg-white z-50 gap-y-3 rounded-lg"
+          className="flex flex-col p-3  bg-white z-50 gap-y-3 rounded-lg w-full"
         >
           <div className=" flex    justify-end">
             <IoClose
