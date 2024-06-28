@@ -43,7 +43,7 @@ const Card = ({ contacts, setcontacts }) => {
       }
     }
     fetchdata();
-  }, []);
+  }, [contacts, setcontacts]);
 
   return (
     <>
