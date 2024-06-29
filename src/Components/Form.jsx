@@ -10,6 +10,7 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
   const [email, setemail] = useState(
     isAddbtn ? "" : contacts[contactindex].email
   );
+  const [click, setclick] = useState(false);
 
   const onNamesubmit = (e) => {
     setname(e.target.value);
@@ -66,6 +67,14 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
               className=" border-2 border-black p-3  w-full  "
               onChange={onNamesubmit}
             />
+            {click && name === "" ? (
+              <p className="text-red-400 text-[20px]">
+                {" "}
+                Please Enter a Valid Name Here{" "}
+              </p>
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="flex flex-col">
@@ -76,20 +85,33 @@ export const Form = ({ setopen, isAddbtn, contacts, contactindex }) => {
               className=" border-2 border-black p-3  w-full"
               onChange={OnemailSumbit}
             />
+            {click && email === "" ? (
+              <p className="text-red-400 text-[20px]">
+                {" "}
+                Please Enter a Email Here{" "}
+              </p>
+            ) : (
+              ""
+            )}
           </div>
           <div
             className="  mt-3"
             onClick={() => {
               console.log(name);
               console.log(email);
-              setopen(null);
+              setclick(true);
+              name != "" && email != "" && setopen(null);
 
               isAddbtn
-                ? addcontact({
+                ? name != "" &&
+                  email != "" &&
+                  addcontact({
                     name: name,
                     email: email,
                   })
-                : Updatecontact(
+                : name != "" &&
+                  email != "" &&
+                  Updatecontact(
                     {
                       name: name,
                       email: email,
