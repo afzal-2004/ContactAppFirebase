@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import "./components.css";
 import { collection, onSnapshot } from "firebase/firestore";
 import { Db } from "../config/firebase";
+import FirebaseImage from "../../public/logos_firebase.svg";
 
 import { Form } from "./Form";
 
@@ -41,17 +42,17 @@ const Home = ({ contacts, setcontacts }) => {
     <>
       <main className="">
         <section className=" bg-white flex  justify-center  p-2 rounded-xl items-center">
-          <img src="/public/logos_firebase.svg" alt="" />
+          <img src={FirebaseImage} alt="" />
           <p> Firebase Contact App</p>
         </section>
         <section className=" flex mt-4  w-full gap-3">
-          <div className=" flex border-2 border-white  w-full justify-start items-center rounded-xl">
-            <CiSearch className="  text-[35px]  text-white absolute" />
+          <div className=" flex border-2 border-white  w-full justify-start items-center rounded-xl gap-1">
+            <CiSearch className="  text-[35px]  text-white " />
 
             <input
               // onChange={() => }
               type="Search Contact"
-              className="w-full bg-transparent border-none p-3"
+              className="w-full bg-transparent border-none p-3 text-white  border-b-black border"
             />
           </div>
 
