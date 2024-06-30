@@ -11,9 +11,11 @@ import { Form } from "./Form";
 
 const Home = ({ contacts, setcontacts }) => {
   const [open, setopen] = useState(false);
+
   const isOpenModel = () => {
     setopen(true);
   };
+
   useEffect(() => {
     async function fetchdata() {
       try {
@@ -36,12 +38,34 @@ const Home = ({ contacts, setcontacts }) => {
     fetchdata();
   }, [contacts, setcontacts]);
 
-  // eslint-disable-next-line no-unused-vars
+  const SearchContact = (e) => {
+    const ContactSearch = e.target.value;
+    // console.log(ContactSearch);
+    const Contactref = collection(Db, "contact");
+
+    onSnapshot(Contactref, (snapshot) => {
+      const contactList = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      console.log(contactList);
+
+      const filterdData = contactList.filter((contact) =>
+        contact.name.toLowerCase().includes(ContactSearch.toLowerCase())
+      );
+      console.log(filterdData);
+      setcontacts(filterdData);
+      // console.log(contacts);
+      return filterdData;
+    });
+  };
 
   return (
     <>
       <main className="">
-        <section className=" bg-white flex  justify-center  p-2 rounded-xl items-center">
+        <section className=" bg-white flex  justify-center  p-2 rounded-xl items-center gap-5">
           <img src={FirebaseImage} alt="" />
           <p> Firebase Contact App</p>
         </section>
@@ -50,9 +74,9 @@ const Home = ({ contacts, setcontacts }) => {
             <CiSearch className="  text-[35px]  text-white " />
 
             <input
-              // onChange={() => }
+              onChange={SearchContact}
               type="Search Contact"
-              className="w-full bg-transparent border-none p-3 text-white  border-b-black border"
+              className="w-full bg-transparent border-none p-3 text-white  border-b-black border text-[20px]"
             />
           </div>
 
